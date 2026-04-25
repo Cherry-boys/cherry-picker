@@ -5,7 +5,7 @@ import { Glob } from "bun";
 
 const DOCS_DIR = join(import.meta.dir, "..", "docs");
 
-const EXCLUDED_DIRS = new Set(["archive", "research", "plans"]);
+const EXCLUDED_DIRS = new Set(["archive", "research", "plans", "internal"]);
 
 function compactStrings(values: unknown[]): string[] {
 	const result: string[] = [];
