@@ -1,159 +1,83 @@
-# Turborepo starter
+# CiS Agent
 
-This Turborepo starter is maintained by the Turborepo core team.
+AI assistant for **CiS systems s.r.o.** that automates the creation of production work procedures (*pracovní postupy*) from customer technical drawings.
 
-## Using this example
+## What is this?
 
-Run the following command:
+CiS manufactures cable harnesses and electromechanical components for international industrial customers. Technologists currently convert customer PDF drawings (often in German) into Word work procedure documents by hand — reading the drawing, assembling a bill of materials in the proAlpha ERP, and writing the ordered operation sequence manually.
 
-```sh
-npx create-turbo@latest
+This project builds an AI agent that handles that pipeline end-to-end.
+
+## Current state (PoC)
+
+The agent is a [LangGraph.js](https://langchain-ai.github.io/langgraphjs/) graph with two nodes running in sequence:
+
+```
+pdf_extractor → bom_lookup
 ```
 
-## What's inside?
+**`pdf_extractor`** — sends the PDF to Claude claude-sonnet-4-6 via the Anthropic API and extracts the drawing number from the technical drawing.
 
-This Turborepo includes the following packages/apps:
+**`bom_lookup`** — calls the proAlpha REST API with the drawing number and retrieves the bill of materials (BOM) for that product.
 
-### Apps and Packages
+The graph state carries:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+| Field | Type | Description |
+|---|---|---|
+| `pdf_path` | `string` | Path to the input customer PDF drawing |
+| `drawing_number` | `string \| null` | Extracted from the PDF |
+| `bom` | `BomEntry[] \| null` | Materials returned from proAlpha |
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Monorepo structure
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```
+apps/
+  agent/           # LangGraph.js agent (the main AI pipeline)
+  proalpha-mock/   # Mock proAlpha REST API backed by SQLite (for local dev)
+  web/             # Next.js app (placeholder)
+packages/
+  eslint-config/
+  typescript-config/
+assets/
+  input_drawing.pdf          # Sample customer drawing for testing
+  output-working-procedure.docx  # Example output document (target format)
+docs/
+  project-overview.md        # Domain context and full goal description
+  agent-architecture.md      # Agent design notes
+  plans/poc-agent-design.md  # PoC design decisions
 ```
 
-Without global `turbo`, use your package manager:
+## What's planned but not built yet
+
+- Operation sequencing (cut → crimp → assemble → inspect → pack)
+- Time estimation based on historically similar procedures
+- Word document generation conforming to `Formblatt CiS-0038`
+- Consistency check (drawing ↔ BOM ↔ procedure alignment)
+- Revision management (diff against previous procedure when drawing index changes)
+- Frontend UI for technologists
+
+## Running locally
 
 ```sh
-cd my-turborepo
-npx turbo build
-bun dlx turbo build
-bun exec turbo build
+# Install dependencies
+bun install
+
+# Start the mock proAlpha API (port 3001)
+cd apps/proalpha-mock
+bun run dev
+
+# Start the LangGraph dev server (agent)
+cd apps/agent
+bun run agent
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+The agent requires `ANTHROPIC_API_KEY` set in `apps/agent/.env` (see `.env.example`).
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Tech stack
 
-```sh
-turbo build --filter=docs
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-bun exec turbo build --filter=docs
-bun exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-bun exec turbo dev
-bun exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-bun exec turbo dev --filter=web
-bun exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-bun exec turbo login
-bun exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-bun exec turbo link
-bun exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- **LangGraph.js** — agent orchestration
+- **Anthropic Claude** — PDF parsing and AI reasoning
+- **Hono + SQLite** — mock proAlpha ERP REST API
+- **Bun** — runtime and package manager
+- **Turborepo** — monorepo build orchestration
+- **TypeScript** throughout
