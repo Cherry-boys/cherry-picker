@@ -1,5 +1,5 @@
 {
-  "name": "cis-agent",
+  "name": "cherrypick",
   "private": true,
   "scripts": {
     "build": "turbo run build",
