@@ -1,0 +1,26 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "db:generate": "bun --env-file=../../.env prisma generate",
+    "db:migrate": "bun --env-file=../../.env prisma migrate dev",
+    "db:deploy": "bun --env-file=../../.env prisma migrate deploy",
+    "db:studio": "bun --env-file=../../.env prisma studio",
+    "db:seed": "bun --env-file=../../.env run prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "prisma": "^6.3.0",
+    "typescript": "6.0.3"
+  }
+}

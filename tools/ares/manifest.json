@@ -1,0 +1,27 @@
+{
+  "manifest_version": "0.3",
+  "name": "ares-pp-mcp",
+  "display_name": "ARES",
+  "version": "4.12.0",
+  "description": "Every ARES lookup, plus a local store, offline search, bulk IČO enrichment, and portfolio change-tracking no other ARES tool has.",
+  "author": {
+    "name": "CLI Printing Press"
+  },
+  "license": "Apache-2.0",
+  "server": {
+    "type": "binary",
+    "entry_point": "bin/ares-pp-mcp",
+    "mcp_config": {
+      "command": "${__dirname}/bin/ares-pp-mcp",
+      "args": []
+    }
+  },
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": [
+      "darwin",
+      "linux",
+      "win32"
+    ]
+  }
+}

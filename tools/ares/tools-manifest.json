@@ -1,0 +1,776 @@
+{
+  "api_name": "ares",
+  "base_url": "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest",
+  "description": "Every ARES lookup, plus a local store, offline search, bulk IČO enrichment, and portfolio change-tracking no other ARES tool has.",
+  "mcp_ready": "full",
+  "http_transport": "standard",
+  "auth": {
+    "type": "none"
+  },
+  "required_headers": [],
+  "tools": [
+    {
+      "name": "ciselniky-nazevniky_vyhledej-ciselnik",
+      "description": "Vyhledání číselníků používaných v IS ARES podle komplexního filtru. Optional: kodCiselniku, pocet, razeni (plus 2 more). Returns the new CiselnikyNazevnikSeznam.",
+      "method": "POST",
+      "path": "/ciselniky-nazevniky/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "kodCiselniku",
+          "type": "string",
+          "location": "body",
+          "description": "Kód číselníku"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        },
+        {
+          "name": "zdrojCiselniku",
+          "type": "string",
+          "location": "body",
+          "description": "Zdroj/oblast číselníku - kód (ciselnikKod: TypZdrojeAres, zdroj:com)"
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty_vrat-ekonomicky-subjekt",
+      "description": "Vyhledání ekonomického subjektu ARES podle zadaného iča. Required: ico. Returns the EkonomickySubjekt.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty_vyhledej",
+      "description": "Vyhledání seznamu ekonomických subjektů ARES podle komplexního filtru. Optional: czNace, financniUrad, ico (plus 7 more). Returns the new EkonomickeSubjektySeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "czNace",
+          "type": "array",
+          "location": "body",
+          "description": "Cz nace"
+        },
+        {
+          "name": "financniUrad",
+          "type": "array",
+          "location": "body",
+          "description": "Financni urad"
+        },
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "obchodniJmeno",
+          "type": "string",
+          "location": "body",
+          "description": "Obchodní jméno ekonomického subjektu"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "pravniForma",
+          "type": "array",
+          "location": "body",
+          "description": "Pravni forma"
+        },
+        {
+          "name": "pravniFormaRos",
+          "type": "array",
+          "location": "body",
+          "description": "Pravni forma ros"
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "sidlo",
+          "type": "object",
+          "location": "body",
+          "description": "Adresa"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-ceu_vrat-ekonomicky-subjekt-ceu",
+      "description": "Vyhledání konkrétního úpadce ze zdroje CEÚ. Required: ico. Returns the EkonomickySubjektCeu.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-ceu/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-ceu_vyhledej-seznam-ekonomickych-subjektu-ceu",
+      "description": "Vyhledání seznamu úpadců ze zdroje CEÚ. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyCeuSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-ceu/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-notifikace_vrat-notifikacni-davku",
+      "description": "Vyhledání konkrétní notifikační dávky zdroje ARES podle vstupcách parametrů (zdroj, číslo notifikační dávky). Required: datovyZdroj, cisloDavky. Returns the NotifikacniDavkaZaznam.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-notifikace/datovy-zdroj/{datovyZdroj}/cislo-davky/{cisloDavky}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "datovyZdroj",
+          "type": "string",
+          "location": "path",
+          "description": "Datovy zdroj",
+          "required": true
+        },
+        {
+          "name": "cisloDavky",
+          "type": "int",
+          "location": "path",
+          "description": "Cislo davky",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-notifikace_vyhledej-seznam-notifikacnich-davek",
+      "description": "Vyhledání seznamu notifikačních dávek ekonomických subjektů ARES podle zvoleného filtru. Optional: datovyZdroj. Returns the new SeznamNotifikacnichDavek.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-notifikace/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "datovyZdroj",
+          "type": "string",
+          "location": "body",
+          "description": "Datový zdroj notifikační dávky - kód (ciselnikKod: TypZdrojeAres, zdroj:com) Podporované zdroje: vr - Veřejný rejstřík res - Registr ekonomických subjektů ros - Registr osob rzp - Registr živnostenského podnikání nrpzs - Národní registr poskytovatelů zdravotnických služeb rcns - Registr církvní a náboženských společenství rpsh - Registr politických stran a hnutí rs - Registr škol szr - Společný zemědělský registr"
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-nrpzs_vrat-ekonomicky-subjekt-nrpzs",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje NRPZS. Required: ico. Returns the EkonomickySubjektNrpzs.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-nrpzs/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-nrpzs_vyhledej-seznam-ekonomickych-subjektu-nrpzs",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje NRPZS. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyNrpzsSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-nrpzs/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rcns_vrat-ekonomicky-subjekt-rcns",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje RCNS. Required: ico. Returns the EkonomickySubjektRcns.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-rcns/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rcns_vyhledej-seznam-ekonomickych-subjektu-rcns",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje RCNS. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyRcnsSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-rcns/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-res_vrat-ekonomicky-subjekt-res",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje RES. Required: ico. Returns the EkonomickySubjektRes.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-res/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-res_vyhledej-seznam-ekonomickych-subjektu-res",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje RES. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyResSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-res/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-ros_vrat-ekonomicky-subjekt-ros",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje ROS. Required: ico. Returns the EkonomickySubjektRos.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-ros/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-ros_vyhledej-seznam-ekonomickych-subjektu-ros",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje ROS. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyRosSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-ros/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rpsh_vrat-ekonomicky-subjekt-rpsh",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje RPSH. Required: ico. Returns the EkonomickySubjektRpsh.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-rpsh/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rpsh_vyhledej-seznam-ekonomickych-subjektu-rpsh",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje RPSH. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyRpshSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-rpsh/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rs_vrat-ekonomicky-subjekt-rs",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje RŠ. Required: ico. Returns the EkonomickySubjektRs.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-rs/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rs_vyhledej-seznam-ekonomickych-subjektu-rs",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje RŠ. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyRsSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-rs/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rzp_vrat-ekonomicky-subjekt-rzp",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje RŽP. Required: ico. Returns the EkonomickySubjektRzp.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-rzp/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-rzp_vyhledej-seznam-ekonomickych-subjektu-rzp",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje RŽP. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyRzpSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-rzp/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-szr_vrat-ekonomicky-subjekt-szr",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje SZR - subregistr EZP. Required: ico. Returns the EkonomickySubjektSzr.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-szr/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-szr_vyhledej-seznam-ekonomickych-subjektu-szr",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje SZR - subregistr EZP. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektySzrSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-szr/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-vr_vrat-ekonomicky-subjekt-vr",
+      "description": "Vyhledání konkrétního ekonomického subjektu ze zdroje VR. Required: ico. Returns the EkonomickySubjektVr.",
+      "method": "GET",
+      "path": "/ekonomicke-subjekty-vr/{ico}",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "string",
+          "location": "path",
+          "description": "Ico",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "ekonomicke-subjekty-vr_vyhledej-seznam-ekonomickych-subjektu-vr",
+      "description": "Vyhledání seznamu ekonomických subjektu ze zdroje VR. Optional: ico, pocet, razeni (plus 1 more). Returns the new EkonomickeSubjektyVrSeznam.",
+      "method": "POST",
+      "path": "/ekonomicke-subjekty-vr/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "ico",
+          "type": "array",
+          "location": "body",
+          "description": "Ico"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        }
+      ]
+    },
+    {
+      "name": "standardizovane-adresy_vyhledej",
+      "description": "Vyhledání seznamu standardizovaných adres RÚIAN podle komplexního filtru. Optional: cisloDomovni, cisloOrientacni, cisloOrientacniPismeno (plus 14 more). Returns the new StandardizovaneAdresySeznam.",
+      "method": "POST",
+      "path": "/standardizovane-adresy/vyhledat",
+      "no_auth": true,
+      "params": [
+        {
+          "name": "cisloDomovni",
+          "type": "int",
+          "location": "body",
+          "description": "Číslo domovní"
+        },
+        {
+          "name": "cisloOrientacni",
+          "type": "int",
+          "location": "body",
+          "description": "Číslo orientační - číselná část"
+        },
+        {
+          "name": "cisloOrientacniPismeno",
+          "type": "string",
+          "location": "body",
+          "description": "Číslo orientační - písmenná část"
+        },
+        {
+          "name": "kodAdresnihoMista",
+          "type": "int",
+          "location": "body",
+          "description": "Kód adresního místa"
+        },
+        {
+          "name": "kodCastiObce",
+          "type": "int",
+          "location": "body",
+          "description": "Kód části obce"
+        },
+        {
+          "name": "kodMestskehoCastiObvodu",
+          "type": "int",
+          "location": "body",
+          "description": "Kód městské části statutárního města nebo Prahy"
+        },
+        {
+          "name": "kodObce",
+          "type": "int",
+          "location": "body",
+          "description": "Kód obce"
+        },
+        {
+          "name": "kodUlice",
+          "type": "int",
+          "location": "body",
+          "description": "Kód ulice, veřejného prostranství"
+        },
+        {
+          "name": "nazevCastiObce",
+          "type": "string",
+          "location": "body",
+          "description": "Název části obce"
+        },
+        {
+          "name": "nazevMestskehoCastiObvodu",
+          "type": "string",
+          "location": "body",
+          "description": "Název městské části statutárního města nebo Prahy"
+        },
+        {
+          "name": "nazevObce",
+          "type": "string",
+          "location": "body",
+          "description": "Název obce"
+        },
+        {
+          "name": "nazevUlice",
+          "type": "string",
+          "location": "body",
+          "description": "Název ulice, veřejného prostranství"
+        },
+        {
+          "name": "pocet",
+          "type": "int",
+          "location": "body",
+          "description": "Počet prvků k výstupu."
+        },
+        {
+          "name": "razeni",
+          "type": "array",
+          "location": "body",
+          "description": "Razeni"
+        },
+        {
+          "name": "start",
+          "type": "int",
+          "location": "body",
+          "description": "Offset pro stránkování (poloha prvního vráceného prvku)."
+        },
+        {
+          "name": "textovaAdresa",
+          "type": "string",
+          "location": "body",
+          "description": "Nestrukturovaná adresa"
+        },
+        {
+          "name": "typStandardizaceAdresy",
+          "type": "string",
+          "location": "body",
+          "description": "Typ požadované standardizace - kód (číselník kod:TypStandardizaceAdresy) UPLNA_STANDARDIZACE, VYHOVUJICI_ADRESY"
+        }
+      ]
+    }
+  ]
+}

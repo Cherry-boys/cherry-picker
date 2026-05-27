@@ -8,7 +8,15 @@
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "docs:list": "bun run ./scripts/docs-list.ts"
+    "docs:list": "bun run ./scripts/docs-list.ts",
+    "db:generate": "bun run --filter @repo/db db:generate",
+    "db:migrate": "bun run --filter @repo/db db:migrate",
+    "db:deploy": "bun run --filter @repo/db db:deploy",
+    "db:studio": "bun run --filter @repo/db db:studio",
+    "db:seed": "bun run --filter @repo/db db:seed",
+    "ares:build": "make -C tools/ares build",
+    "ares:install": "make -C tools/ares install",
+    "ares:test": "make -C tools/ares test"
   },
   "devDependencies": {
     "@langchain/langgraph-cli": "^1.1.17",
@@ -26,6 +34,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@repo/db": "*",
     "@langchain/anthropic": "^1.3.27",
     "@langchain/core": "^1.1.41",
     "@langchain/langgraph": "^1.2.9",

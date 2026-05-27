@@ -27,6 +27,13 @@ out/
 build
 dist
 
+# Prisma generated client
+packages/db/generated
+
+# Go CLI (tools/ares) build artifacts
+tools/ares/bin/
+tools/ares/build/
+
 
 # Debug
 npm-debug.log*
