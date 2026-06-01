@@ -63,23 +63,23 @@ func newEkonomickeSubjektyVyhledejCmd(flags *rootFlags) *cobra.Command {
 			} else {
 				body = map[string]any{}
 				if bodyCzNace != "" {
-					var parsedCzNace any
-					if err := json.Unmarshal([]byte(bodyCzNace), &parsedCzNace); err != nil {
-						return fmt.Errorf("parsing --cz-nace JSON: %w", err)
+					parsedCzNace, err := coerceStringArray(bodyCzNace)
+					if err != nil {
+						return fmt.Errorf("parsing --cz-nace: %w", err)
 					}
 					body["czNace"] = parsedCzNace
 				}
 				if bodyFinancniUrad != "" {
-					var parsedFinancniUrad any
-					if err := json.Unmarshal([]byte(bodyFinancniUrad), &parsedFinancniUrad); err != nil {
-						return fmt.Errorf("parsing --financni-urad JSON: %w", err)
+					parsedFinancniUrad, err := coerceStringArray(bodyFinancniUrad)
+					if err != nil {
+						return fmt.Errorf("parsing --financni-urad: %w", err)
 					}
 					body["financniUrad"] = parsedFinancniUrad
 				}
 				if bodyIco != "" {
-					var parsedIco any
-					if err := json.Unmarshal([]byte(bodyIco), &parsedIco); err != nil {
-						return fmt.Errorf("parsing --ico JSON: %w", err)
+					parsedIco, err := coerceStringArray(bodyIco)
+					if err != nil {
+						return fmt.Errorf("parsing --ico: %w", err)
 					}
 					body["ico"] = parsedIco
 				}
@@ -90,16 +90,16 @@ func newEkonomickeSubjektyVyhledejCmd(flags *rootFlags) *cobra.Command {
 					body["pocet"] = bodyPocet
 				}
 				if bodyPravniForma != "" {
-					var parsedPravniForma any
-					if err := json.Unmarshal([]byte(bodyPravniForma), &parsedPravniForma); err != nil {
-						return fmt.Errorf("parsing --pravni-forma JSON: %w", err)
+					parsedPravniForma, err := coerceStringArray(bodyPravniForma)
+					if err != nil {
+						return fmt.Errorf("parsing --pravni-forma: %w", err)
 					}
 					body["pravniForma"] = parsedPravniForma
 				}
 				if bodyPravniFormaRos != "" {
-					var parsedPravniFormaRos any
-					if err := json.Unmarshal([]byte(bodyPravniFormaRos), &parsedPravniFormaRos); err != nil {
-						return fmt.Errorf("parsing --pravni-forma-ros JSON: %w", err)
+					parsedPravniFormaRos, err := coerceStringArray(bodyPravniFormaRos)
+					if err != nil {
+						return fmt.Errorf("parsing --pravni-forma-ros: %w", err)
 					}
 					body["pravniFormaRos"] = parsedPravniFormaRos
 				}
